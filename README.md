@@ -1,1 +1,9 @@
-# itsecgames-security-assessment
+# Security Assessment — http://www.itsecgames.com/
+
+**Candidate:** Chirayata Sarkar  
+**Role:** Security Officer Trainee  
+**Scope:** Non-intrusive assessment of publicly hosted endpoint `http://www.itsecgames.com/` (bWAPP).  
+**Tools used:** Nmap, Nikto, OWASP ZAP (Quick Scan), SSL Labs, Wappalyzer.
+
+See `report.md` for full findings and prioritized recommendations.
+Evidence and tool outputs are in the `evidence/` and `tool-outputs/` folders.
