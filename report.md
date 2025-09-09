@@ -11,10 +11,10 @@
 ## 2. Summary (Top findings)
 | Priority | Finding | Evidence | Recommendation |
 |---|---:|---|---|
-| High | Outdated Apache/PHP versions disclosed — known CVE(s) possible | `evidence/vulners.nmap`, `evidence/nikto.txt` | Upgrade Apache/PHP to patched versions and apply vendor patches. |
-| Medium | Missing security HTTP headers (Content-Security-Policy, X-Frame-Options) | `evidence/zap-report.html`, `evidence/screenshot1.png` | Add CSP, X-Frame-Options, X-Content-Type-Options, and Strict-Transport-Security headers. |
+| High | Outdated Apache/PHP versions disclosed — known CVE(s) possible | `tools-output/vulners.nmap`, `tools-output/nikto.txt` | Upgrade Apache/PHP to patched versions and apply vendor patches. |
+| Medium | Missing security HTTP headers (Content-Security-Policy, X-Frame-Options) | `tools-output/zap-report.html`, `evidence/screenshot1.png` | Add CSP, X-Frame-Options, X-Content-Type-Options, and Strict-Transport-Security headers. |
 | Medium | Weak TLS configuration (TLS 1.0 enabled or weak ciphers) | `evidence/ssllabs.png` | Disable TLS <1.2 and weak ciphers; enable TLS 1.2/1.3 only. |
-| Low | Directory listing / default files found | `evidence/nikto.txt` | Disable directory indexing; remove default files. |
+| Low | Directory listing / default files found | `tools-output/nikto.txt` | Disable directory indexing; remove default files. |
 
 
 ## 3. Detailed Findings
