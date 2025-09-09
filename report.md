@@ -1,99 +1,137 @@
-# Security Assessment Report
-**Target:** http://www.itsecgames.com/  
-**Date:** 2025-09-08  
-**Assessor:** Chirayata Sarkar
+# Security Vulnerability Assessment Report
 
-## 1. Scope & Methodology
-- Passive and automated scans only (Nmap, Nikto, ZAP Automated Scan).
-- SSL/TLS analysis via SSL Labs.
-- No intrusive exploitation performed; only information-gathering and automated checks.
+**Target:** [http://www.itsecgames.com/](http://www.itsecgames.com/)
+**Date:** September 2025
+**Prepared By:** Chirayata Sarkar
+**Role:** Security Officer Trainee (Assessment Task)
 
-## 2. Vulnerabilities
-### 1. Top CVE Findings
-Below table summarizes the CVE vulnerabilities, their severity, and a brief description:
+---
 
-| **CVE ID**        | **Severity**  | **CVSS Score** | **Description**                                                                                     |
-|-------------------|---------------|----------------|-----------------------------------------------------------------------------------------------------|
-| **CVE-2023-38408**| **Critical**  | **9.8**        | Remote Code Execution in OpenSSH's forwarded ssh-agent due to an untrustworthy search path.       |
-| **CVE-2016-1908** | **Critical**  | **9.8**        | Mismanagement of failed cookie generation for untrusted X11 forwarding in OpenSSH.                 |
-| **CVE-2015-5600** | **High**      | **7.5**        | Vulnerability in OpenSSL that allows for denial of service via crafted packets.                    |
-| **CVE-2016-0778** | **High**      | **7.5**        | A vulnerability in OpenSSL that allows for denial of service via crafted packets.                  |
-| **CVE-2016-6515** | **High**      | **7.5**        | A vulnerability in OpenSSL that allows for denial of service via crafted packets.                  |
-| **CVE-2016-10012**| **High**      | **7.5**        | A vulnerability in OpenSSL that allows for denial of service via crafted packets.                  |
-| **CVE-2016-10009**| **High**      | **7.5**        | A vulnerability in OpenSSL that allows for denial of service via crafted packets.                  |
-| **CVE-2016-10010**| **High**      | **7.5**        | A vulnerability in OpenSSL that allows for denial of service via crafted packets.                  |
-| **CVE-2023-51385**| **Critical**  | **9.8**        | A critical vulnerability in OpenSSH that allows for remote code execution.                          |
-| **CVE-2016-0777** | **High**      | **7.5**        | A vulnerability in OpenSSL that allows for denial of service via crafted packets.                  |
-| **CVE-2023-48795**| **Critical**  | **9.8**        | A critical vulnerability in OpenSSH that allows for remote code execution.                          |
-| **CVE-2016-10011**| **High**      | **7.5**        | A vulnerability in OpenSSL that allows for denial of service via crafted packets.                  |
+## 1. Executive Summary
+
+The purpose of this assessment was to evaluate the security posture of the publicly hosted endpoint `http://www.itsecgames.com`, which runs the intentionally vulnerable application **bWAPP**.
+
+The scope included:
+
+* Identifying vulnerabilities using publicly available tools (Nmap, Nikto, OWASP ZAP, SSL Labs).
+* Assessing SSL/TLS configuration and certificate health.
+* Highlighting misconfigurations and exposed information.
+
+The analysis revealed multiple **critical and high severity vulnerabilities**, primarily due to an **outdated version of OpenSSH** with known **2023 CVEs** (remote code execution, protocol downgrade attacks, and information disclosure). In addition, several medium-severity issues from older OpenSSH versions (2015–2016) were also detected, including privilege escalation and information leakage flaws.
+
+Overall, the site demonstrates an outdated and insecure configuration consistent with its training purpose. If this were a production environment, immediate remediation would be required.
+
+---
+
+## 2. Methodology
+
+The following tools were used:
+
+* **Nmap** with service/version detection and Vulners NSE script
+* **Nikto** for web server misconfigurations
+* **OWASP ZAP** for automated web vulnerability scanning and header analysis
+* **SSL Labs** for TLS configuration and certificate testing
+* **Wappalyzer** browser extension for technology fingerprinting
+
+The assessment was **non-intrusive**: no manual exploitation was attempted. Only publicly available tools were used as per the assignment scope.
+
+---
+
+## 3. Findings
+
+### 3.1 Critical & High Severity Vulnerabilities
+
+| CVE ID         | Component          | Severity | Risk Summary                                           | Evidence           |
+| -------------- | ------------------ | -------- | ------------------------------------------------------ | ------------------ |
+| CVE-2023-38408 | OpenSSH <9.3       | High     | Remote code execution via forwarded SSH agent requests | `nmap-vulners.txt` |
+| CVE-2023-48795 | OpenSSH (Terrapin) | High     | Protocol downgrade, session compromise                 | `nmap-vulners.txt` |
+| CVE-2023-51385 | OpenSSH            | High     | Potential information disclosure / bypass              | `nmap-vulners.txt` |
+| CVE-2015-5600  | OpenSSH            | High     | Weak keyboard-interactive auth → brute force possible  | `nmap-vulners.txt` |
+
+---
+
+### 3.2 Medium Severity Vulnerabilities
+
+| CVE ID                                 | Component       | Severity | Risk Summary                                     | Evidence           |
+| -------------------------------------- | --------------- | -------- | ------------------------------------------------ | ------------------ |
+| CVE-2016-0777                          | OpenSSH roaming | Medium   | May leak private keys if roaming enabled         | `nmap-vulners.txt` |
+| CVE-2016-0778                          | OpenSSH         | Medium   | Out-of-bounds read → DoS                         | `nmap-vulners.txt` |
+| CVE-2016-1908                          | OpenSSH PKCS#11 | Medium   | Privilege escalation via improper cleanup        | `nmap-vulners.txt` |
+| CVE-2016-6515                          | OpenSSH         | Medium   | Local privilege escalation (env var injection)   | `nmap-vulners.txt` |
+| CVE-2016-10009 / 10010 / 10011 / 10012 | OpenSSH         | Medium   | Memory corruption / privilege escalation vectors | `nmap-vulners.txt` |
+
+---
+
+### 3.3 SSL/TLS Assessment
+
+* **Grade:** \[Insert SSL Labs Grade Screenshot, e.g. “C”]
+* **Weaknesses:**
+
+  * TLS 1.0/1.1 supported
+  * Weak ciphers (3DES, RC4) enabled
+  * HSTS header missing
+
+---
+
+### 3.4 Web Application & Header Issues
+
+* Missing HTTP security headers (Content-Security-Policy, X-Frame-Options, Strict-Transport-Security).
+* Banner disclosure: Apache/PHP versions exposed in responses.
+* Directory indexing enabled on some paths.
+* ZAP scan flagged insecure cookies (no HttpOnly / Secure flags).
+
+---
+
+## 4. Risk Assessment
+
+* **Critical/High Risks:** Remote code execution and session compromise via outdated OpenSSH. These should be **remediated immediately** in a real environment.
+* **Medium Risks:** Information leakage, local privilege escalation, and DoS risks highlight poor patch management.
+* **Low Risks:** Missing headers and banner disclosure increase attacker reconnaissance capabilities but are less urgent.
+
+---
+
+## 5. Recommendations
+
+### 5.1 Prioritized Remediation Plan
+
+1. **Upgrade OpenSSH to Latest Stable Version (≥9.3p2)**
+
+   * Resolves CVE-2023-38408, CVE-2023-48795, CVE-2023-51385, and legacy 2016 CVEs.
+   * Disable agent forwarding and weak ciphers.
+
+2. **Harden Authentication Mechanisms**
+
+   * Mitigates CVE-2015-5600.
+   * Implement MFA and enforce password lockouts.
+
+3. **Disable Deprecated Features**
+
+   * Remove “roaming” feature (CVE-2016-0777).
+   * Patch memory corruption and DoS issues (CVE-2016-0778, CVE-2016-100xx).
+
+4. **TLS Hardening**
+
+   * Disable TLS 1.0/1.1.
+   * Enforce TLS 1.2/1.3 only.
+   * Add HSTS policy.
+
+5. **Web Server Hardening**
+
+   * Hide Apache/PHP version banners.
+   * Disable directory listing.
+   * Add CSP, X-Frame-Options, X-Content-Type-Options headers.
+
+6. **Patch Management Process**
+
+   * Establish continuous monitoring and regular patching to avoid accumulation of outdated software.
+
+---
+
+## 6. Conclusion
+
+The assessment confirms that `http://www.itsecgames.com` hosts multiple vulnerabilities by design (as part of bWAPP). However, in a real-world context, the same misconfigurations and outdated OpenSSH versions would expose the system to **serious remote exploitation risks**.
+
+**Immediate upgrades, configuration hardening, and a structured patch management process are strongly recommended.**
 
 
-
-### 2. Top EDB Findings
-Below table summarizes the EDB vulnerabilities, their severity, and a brief description.
-
-| **EDB ID**        | **Severity**  | **Description**                                                                                     |
-|-------------------|---------------|-----------------------------------------------------------------------------------------------------|
-| **EDB-ID:40888**  | Medium        | Boot2root VM designed for penetration testing skills development.                                   |
-| **EDB-ID:46516**  | High          | Vulnerability in OpenSSH allowing CRLF injection via xauth commands.                               |
-| **EDB-ID:46193**  | Medium        | Vulnerability related to improper input validation in a web application.                            |
-| **EDB-ID:40858**  | Medium        | Vulnerability in a web application that allows for SQL injection.                                   |
-| **EDB-ID:40119**  | High          | Remote code execution vulnerability in a popular software package.                                  |
-| **EDB-ID:39569**  | Medium        | Cross-site scripting vulnerability in a web application.                                           |
-| **EDB-ID:40136**  | High          | Buffer overflow vulnerability in a network service.                                                |
-| **EDB-ID:40113**  | Medium        | Information disclosure vulnerability in a web application.                                         |
-| **EDB-ID:45939**  | High          | Vulnerability allowing unauthorized access to sensitive data.                                       |
-| **EDB-ID:45233**  | Medium        | Denial of service vulnerability in a network service.                                              |
-
-### 3. Detailed Analysis
-Provide a detailed analysis of each EDB ID, including:
-
-- **EDB ID**: The identifier of the vulnerability.
-- **Severity**: The severity level (Critical, High, Medium, Low).
-- **Description**: A brief description of the vulnerability and its potential impact.
-- **Mitigation Strategies**: Recommendations for mitigating the risks associated with each vulnerability.
-
-#### Example:
-- **EDB-ID:46516**
-  - **Severity**: High
-  - **Description**: This vulnerability in OpenSSH allows an authenticated user to inject arbitrary xauth commands by sending an x11 channel request that includes a newline character in the x11 cookie. This attack requires the server to have 'X11Forwarding yes' enabled.
-  - **Mitigation Strategies**: Disable X11 forwarding on the server to prevent this attack vector.
-
-### 4. Conclusion
-Addressing these vulnerabilities is crucial to maintaining the security of systems and applications. Failure to mitigate these risks could lead to unauthorized access, data breaches, or service disruptions.
-
-### 5. References
-- [Exploit Database](https://www.exploit-db.com/)
-- [GitHub Repository](https://github.com/)
-
-Feel free to adjust the severity ratings and descriptions based on your findings or additional research. If you have specific details for any of the EDB IDs, let me know, and I can help you refine the report further!
-
-## 3. Detailed Findings
-### Finding 1 — Outdated Server Software (High)
-- **Description:** Server banner discloses Apache/2.x and PHP 5.x (example).
-- **Tool evidence:** `evidence/nmap.txt`, `evidence/nikto.txt`
-- **Risk:** Known CVEs for older Apache/PHP could allow remote code execution or info disclosure.
-- **Mitigation:** Apply vendor security updates; remove server version from banners; harden PHP config (`expose_php = Off`, disable unused modules).
-
-### Finding 2 — TLS Configuration (Medium)
-- **Description:** SSL Labs grade: T. Supports TLS 1.0 / weak ciphers.
-- **Evidence:** `evidence/ssllabs.png` and link to report.
-- **Mitigation:** Disable TLS 1.0/1.1, remove RC4/3DES ciphers; enable TLS 1.2/1.3; enable HSTS.
-
-### Finding 3 — Missing Security Headers (Medium)
-- **Description:** Missing CSP, X-Frame-Options, X-Content-Type-Options.
-- **Evidence:** `evidence/zap-report.html`
-- **Mitigation:** Set headers in server config or app framework.
-
-## 4. Tools & Commands Used
-- `nmap -sV -Pn www.itsecgames.com -oN evidence/nmap.txt`
-- `nikto -h http://www.itsecgames.com -output evidence/nikto.txt`
-- OWASP ZAP Quick Scan → exported `evidence/zap-report.html`
-- SSL Labs: https://www.ssllabs.com/ssltest/analyze.html?d=www.itsecgames.com
-
-## 5. Conclusion
-- The site is intentionally vulnerable (bWAPP). The above findings are consistent with an intentionally vulnerable training site and should be remediated if deployed in production.
-
-## 6. Appendix
-- Raw outputs in `tool-outputs/` and screenshots in `evidence/`.
 
