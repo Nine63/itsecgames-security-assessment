@@ -1,8 +1,11 @@
 # Security Vulnerability Assessment Report
 
 **Target:** [http://www.itsecgames.com/](http://www.itsecgames.com/)
+
 **Date:** September 2025
+
 **Prepared By:** Chirayata Sarkar
+
 **Role:** Security Officer Trainee (Assessment Task)
 
 ---
