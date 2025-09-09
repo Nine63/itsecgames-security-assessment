@@ -4,19 +4,18 @@
 **Assessor:** Chirayata Sarkar
 
 ## 1. Scope & Methodology
-- Passive and automated scans only (Nmap, Nikto, ZAP quick scan).
+- Passive and automated scans only (Nmap, Nikto, ZAP Automated Scan).
 - SSL/TLS analysis via SSL Labs.
 - No intrusive exploitation performed; only information-gathering and automated checks.
 
 ## 2. Summary (Top findings)
 | Priority | Finding | Evidence | Recommendation |
 |---|---:|---|---|
-| High | Outdated Apache/PHP versions disclosed — known CVE(s) possible | `evidence/nmap.txt`, `evidence/nikto.txt` | Upgrade Apache/PHP to patched versions and apply vendor patches. |
+| High | Outdated Apache/PHP versions disclosed — known CVE(s) possible | `evidence/vulners.nmap`, `evidence/nikto.txt` | Upgrade Apache/PHP to patched versions and apply vendor patches. |
 | Medium | Missing security HTTP headers (Content-Security-Policy, X-Frame-Options) | `evidence/zap-report.html`, `evidence/screenshot1.png` | Add CSP, X-Frame-Options, X-Content-Type-Options, and Strict-Transport-Security headers. |
 | Medium | Weak TLS configuration (TLS 1.0 enabled or weak ciphers) | `evidence/ssllabs.png` | Disable TLS <1.2 and weak ciphers; enable TLS 1.2/1.3 only. |
 | Low | Directory listing / default files found | `evidence/nikto.txt` | Disable directory indexing; remove default files. |
 
-*(Note: replace the rows above with actual findings from your scans.)*
 
 ## 3. Detailed Findings
 ### Finding 1 — Outdated Server Software (High)
