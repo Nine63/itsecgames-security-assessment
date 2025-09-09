@@ -67,12 +67,14 @@ The assessment was **non-intrusive**: no manual exploitation was attempted. Only
 
 ### 3.3 SSL/TLS Assessment
 
-* **Grade:** \[Insert SSL Labs Grade Screenshot, e.g. “C”]
+* **Grade:** T
 * **Weaknesses:**
-
-  * TLS 1.0/1.1 supported
-  * Weak ciphers (3DES, RC4) enabled
-  * HSTS header missing
+    * **Lack of Server Cipher Suite Preference:** The report indicates that the server has no preference for a specific cipher suite. This is a critical misconfiguration that allows the client to choose the weakest supported algorithm, overriding any secure ordering the server may have attempted.
+    * **Use of Static RSA Key Exchange:** Many of the supported cipher suites (e.g., `TLS_RSA_WITH_AES_128_CBC_SHA`) use static RSA for key exchange. These suites do not provide **Forward Secrecy**. If the server's private key is ever compromised, an attacker can use it to decrypt all past recorded traffic that was encrypted using these cipher suites.
+    * **Support for Weak CBC Ciphers:** The report explicitly flags multiple cipher suites as **WEAK**, including many that use Cipher Block Chaining (CBC) mode. This mode is susceptible to various attacks, such as padding oracle attacks (e.g., **POODLE** and **BEAST**), which can lead to information disclosure.
+    * **Outdated/Weak Ciphers:** While the previous report mentioned 3DES/RC4, the provided list shows other weak ciphers are enabled, such as AES-128-CBC and all Camellia ciphers, which are marked as "WEAK".
+    * **Missing HSTS Header:** As noted in the original assessment, the absence of the HTTP Strict Transport Security (HSTS) header leaves the website vulnerable to downgrade attacks and cookie hijacking.
+    * **Outdated TLS Protocols:** The server still supports deprecated protocols such as TLS 1.0 and TLS 1.1. These versions contain known vulnerabilities and should be disabled in favor of TLS 1.2 and TLS 1.3.
 
 ---
 
