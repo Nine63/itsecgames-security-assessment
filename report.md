@@ -34,7 +34,7 @@ The following tools were used:
 * **Nikto** for web server misconfigurations
 * **OWASP ZAP** for automated web vulnerability scanning and header analysis
 * **SSL Labs** for TLS configuration and certificate testing
-* **Wappalyzer** browser extension for technology fingerprinting
+* **Security Headers** for HSTS configuration checking
 
 The assessment was **non-intrusive**: no manual exploitation was attempted. Only publicly available tools were used as per the assignment scope.
 
@@ -83,7 +83,6 @@ The assessment was **non-intrusive**: no manual exploitation was attempted. Only
 * Missing HTTP security headers (Content-Security-Policy, X-Frame-Options, Strict-Transport-Security).
 * Banner disclosure: Apache/PHP versions exposed in responses.
 * Directory indexing enabled on some paths.
-* ZAP scan flagged insecure cookies (no HttpOnly / Secure flags).
 
 ---
 
