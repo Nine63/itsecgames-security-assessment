@@ -22,7 +22,6 @@ The scope included:
 
 The analysis revealed multiple **critical and high severity vulnerabilities**, primarily due to an **outdated version of OpenSSH** with known **2023 CVEs** (remote code execution, protocol downgrade attacks, and information disclosure). In addition, several medium-severity issues from older OpenSSH versions (2015–2016) were also detected, including privilege escalation and information leakage flaws.
 
-Overall, the site demonstrates an outdated and insecure configuration consistent with its training purpose. If this were a production environment, immediate remediation would be required.
 
 ---
 
