@@ -161,7 +161,7 @@ These recommendations address the medium and low-severity risks that can facilit
 
 ## 6. Conclusion
 
-The assessment confirms that `http://www.itsecgames.com` hosts multiple vulnerabilities by design (as part of bWAPP). However, in a real-world context, the same misconfigurations and outdated OpenSSH versions would expose the system to **serious remote exploitation risks**.
+The assessment confirms that `http://www.itsecgames.com` hosts multiple vulnerabilities. In this context, the same misconfigurations and outdated OpenSSH versions exposes the system to **serious remote exploitation risks**.
 
 **Immediate upgrades, configuration hardening, and a structured patch management process are strongly recommended.**
 
