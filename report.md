@@ -46,10 +46,10 @@ The assessment was **non-intrusive**: no manual exploitation was attempted. Only
 
 | CVE ID         | Component          | Severity | Risk Summary                                           | Evidence           |
 | -------------- | ------------------ | -------- | ------------------------------------------------------ | ------------------ |
-| CVE-2023-38408 | OpenSSH <9.3       | High     | Remote code execution via forwarded SSH agent requests | `nmap-vulners.txt` |
-| CVE-2023-48795 | OpenSSH (Terrapin) | High     | Protocol downgrade, session compromise                 | `nmap-vulners.txt` |
-| CVE-2023-51385 | OpenSSH            | High     | Potential information disclosure / bypass              | `nmap-vulners.txt` |
-| CVE-2015-5600  | OpenSSH            | High     | Weak keyboard-interactive auth → brute force possible  | `nmap-vulners.txt` |
+| CVE-2023-38408 | OpenSSH <9.3       | High     | Remote code execution via forwarded SSH agent requests | `vulnersreport.nmap` |
+| CVE-2023-48795 | OpenSSH (Terrapin) | High     | Protocol downgrade, session compromise                 | `vulnersreport.nmap` |
+| CVE-2023-51385 | OpenSSH            | High     | Potential information disclosure / bypass              | `vulnersreport.nmap` |
+| CVE-2015-5600  | OpenSSH            | High     | Weak keyboard-interactive auth → brute force possible  | `vulnersreport.nmap` |
 
 ---
 
@@ -57,11 +57,11 @@ The assessment was **non-intrusive**: no manual exploitation was attempted. Only
 
 | CVE ID                                 | Component       | Severity | Risk Summary                                     | Evidence           |
 | -------------------------------------- | --------------- | -------- | ------------------------------------------------ | ------------------ |
-| CVE-2016-0777                          | OpenSSH roaming | Medium   | May leak private keys if roaming enabled         | `nmap-vulners.txt` |
-| CVE-2016-0778                          | OpenSSH         | Medium   | Out-of-bounds read → DoS                         | `nmap-vulners.txt` |
-| CVE-2016-1908                          | OpenSSH PKCS#11 | Medium   | Privilege escalation via improper cleanup        | `nmap-vulners.txt` |
-| CVE-2016-6515                          | OpenSSH         | Medium   | Local privilege escalation (env var injection)   | `nmap-vulners.txt` |
-| CVE-2016-10009 / 10010 / 10011 / 10012 | OpenSSH         | Medium   | Memory corruption / privilege escalation vectors | `nmap-vulners.txt` |
+| CVE-2016-0777                          | OpenSSH roaming | Medium   | May leak private keys if roaming enabled         | `vulnersreport.nmap` |
+| CVE-2016-0778                          | OpenSSH         | Medium   | Out-of-bounds read → DoS                         | `vulnersreport.nmap` |
+| CVE-2016-1908                          | OpenSSH PKCS#11 | Medium   | Privilege escalation via improper cleanup        | `vulnersreport.nmap` |
+| CVE-2016-6515                          | OpenSSH         | Medium   | Local privilege escalation (env var injection)   | `vulnersreport.nmap` |
+| CVE-2016-10009 / 10010 / 10011 / 10012 | OpenSSH         | Medium   | Memory corruption / privilege escalation vectors | `vulnersreport.nmap` |
 
 ---
 
