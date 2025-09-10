@@ -12,7 +12,7 @@
 
 ## 1. Executive Summary
 
-The purpose of this assessment was to evaluate the security posture of the publicly hosted endpoint `http://www.itsecgames.com`, which runs the intentionally vulnerable application **bWAPP**.
+The purpose of this assessment was to evaluate the security posture of the publicly hosted endpoint `http://www.itsecgames.com`.
 
 The scope included:
 
